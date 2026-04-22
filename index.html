@@ -2,7 +2,8 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Para la mejor Mamá del Universo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para la mejor Mamá del Universo - Galaxia Expandida</title>
     <style>
         body {
             margin: 0;
@@ -10,27 +11,30 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: #050505;
+            background-color: #010103; /* Negro espacial más profundo */
             overflow: hidden;
             color: white;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fuente más elegante */
+            perspective: 1500px; /* Mayor profundidad 3D */
         }
 
-        /* El Sol / Centro */
+        /* El Sol / Centro - Más brillante */
         .sun {
             position: absolute;
-            width: 150px;
-            height: 150px;
-            background: radial-gradient(circle, #ffcc00, #ff8800);
+            width: 180px; /* Un poco más grande */
+            height: 180px;
+            background: radial-gradient(circle, #fff700, #ffaa00, #ff4400); /* Degradado más intenso */
             border-radius: 50%;
-            box-shadow: 0 0 50px #ff8800;
+            box-shadow: 0 0 80px #ffaa00, 0 0 150px #ff440055; /* Doble brillo */
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
             font-weight: bold;
-            font-size: 1.2rem;
-            z-index: 10;
+            font-size: 1.4rem;
+            z-index: 100; /* Siempre al frente */
+            color: #fff;
+            text-shadow: 0 0 10px rgba(0,0,0,0.5);
         }
 
         /* Contenedor de la Galaxia */
@@ -38,112 +42,179 @@
             position: relative;
             width: 100%;
             height: 100%;
-            perspective: 1000px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* Estrellas de fondo */
+        /* Estrellas de fondo - Más densas */
         .star {
             position: absolute;
             background: white;
             border-radius: 50%;
-            opacity: 0.5;
-            animation: twinkle 2s infinite ease-in-out;
+            opacity: 0.2;
+            animation: twinkle 3s infinite ease-in-out;
         }
 
         @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 0.9; transform: scale(1.1); }
         }
 
-        /* Palabras flotantes (Planetas) */
+        /* Palabras flotantes (Planetas) - Más capas */
         .word {
             position: absolute;
             white-space: nowrap;
-            font-size: 1.1rem;
-            text-shadow: 0 0 10px rgba(255,255,255,0.8);
+            font-size: 1rem;
+            text-shadow: 0 0 15px currentColor; /* Brillo del color de la palabra */
             animation: orbit linear infinite;
+            opacity: 0; /* Empiezan invisibles */
+            animation-name: orbit, fadeIn; /* Añadimos fade in */
+            animation-iteration-count: infinite, 1;
+            animation-fill-mode: none, forwards;
         }
 
         @keyframes orbit {
-            from { transform: rotate(0deg) translateX(var(--distance)) rotate(0deg); }
-            to { transform: rotate(360deg) translateX(var(--distance)) rotate(-360deg); }
+            from { transform: rotateY(var(--angleY)) rotateX(var(--angleX)) rotateZ(0deg) translateX(var(--distance)) rotateZ(0deg) rotateX(calc(-1 * var(--angleX))) rotateY(calc(-1 * var(--angleY))); }
+            to { transform: rotateY(var(--angleY)) rotateX(var(--angleX)) rotateZ(360deg) translateX(var(--distance)) rotateZ(-360deg) rotateX(calc(-1 * var(--angleX))) rotateY(calc(-1 * var(--angleY))); }
         }
 
-        /* Estrellas fugaces */
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        /* Estrellas fugaces - Más y más variadas */
         .shooting-star {
             position: absolute;
-            width: 100px;
             height: 2px;
-            background: linear-gradient(90deg, white, transparent);
-            animation: shoot 3s linear infinite;
+            background: linear-gradient(90deg, #fff, transparent);
+            opacity: 0;
+            animation: shoot linear;
         }
 
         @keyframes shoot {
-            0% { transform: translateX(-100px) translateY(0) rotate(-45deg); opacity: 1; }
-            100% { transform: translateX(1000px) translateY(1000px) rotate(-45deg); opacity: 0; }
+            0% { transform: translateX(0) translateY(0) rotate(var(--rotation)); opacity: 0; width: 0; }
+            10% { opacity: 1; width: var(--length); }
+            90% { opacity: 1; width: var(--length); }
+            100% { transform: translateX(var(--travelX)) translateY(var(--travelY)) rotate(var(--rotation)); opacity: 0; width: 0; }
         }
     </style>
 </head>
 <body>
 
     <div class="galaxy" id="galaxy">
-        <div class="sun">TE AMO<br>MAMÁ ❤️</div>
+        <div class="sun">TE AMO<br>MAMÁ ❤️<br><span style="font-size: 0.8rem; font-weight: normal;">Mi Universo</span></div>
     </div>
 
     <script>
+        // Lista expandida de 60 palabras y frases lindas
         const words = [
             "Mi guía ✨", "Mi paz 🕊️", "Amor Eterno", "Gracias Mamita", 
             "Mi refugio", "Magia pura", "Eres única", "Felicidad", 
             "Mi ejemplo", "Te amo", "Reina mía", "Luz de mi vida",
             "Amanecer", "Mi universo", "Inspiración", "Valiente",
-            "Ternura", "Mi paraíso", "Siempre juntos", "Bendición"
+            "Ternura", "Mi paraíso", "Siempre juntos", "Bendición",
+            "Fuerza 💪", "Dulzura 🍭", "Corazón de oro", "Mi todo",
+            "Ángel guardián", "Sonrisa divina", "Paciencia infinita", "Amor incondicional",
+            "Sabiduría", "Abrazo cálido", "Mi norte", "Estrella polar",
+            "Poesía", "Cielo en la tierra", "Luz divina", "Mi alegría",
+            "Guerrera", "Admirable", "Inolvidable", "Mi calma",
+            "Mami querida", "Tesoro mío", "Flor más bella", "Mi orgullo",
+            "Vida mía", "Sol de mi día", "Luna serena", "Mi hogar",
+            "Compañera", "Sostén", "Mi primer amor", "Gracias por tanto",
+            "Infinita", "Regalo del cielo", "Mi apoyo", "Mi consejera",
+            "Coraje", "Pura vida", "Mi esencia", "Mi paz interior"
         ];
 
         const galaxy = document.getElementById('galaxy');
+        const numStars = 400; // Más estrellas de fondo
 
         // Crear estrellas de fondo
-        for (let i = 0; i < 200; i++) {
+        for (let i = 0; i < numStars; i++) {
             const star = document.createElement('div');
             star.className = 'star';
-            const size = Math.random() * 3;
+            const size = Math.random() * 2 + 0.5; // Tamaños más variados
             star.style.width = `${size}px`;
             star.style.height = `${size}px`;
             star.style.left = `${Math.random() * 100}%`;
             star.style.top = `${Math.random() * 100}%`;
+            star.style.animationDelay = `${Math.random() * 3}s`; // Retraso aleatorio para el parpadeo
             galaxy.appendChild(star);
         }
 
-        // Crear palabras orbitando
+        // Crear palabras orbitando (Planetas)
+        const colors = ['#ff9a9e', '#fad0c4', '#a1c4fd', '#c2e9fb', '#fbc2eb', '#fff', '#ffe082'];
+        
         words.forEach((w, index) => {
             const wordDiv = document.createElement('div');
             wordDiv.className = 'word';
             wordDiv.innerText = w;
             
-            // Distancia aleatoria del centro y velocidad
-            const dist = 150 + (index * 15); 
-            const duration = 10 + (Math.random() * 20);
+            // Parámetros de órbita más complejos para efecto espiral y profundidad
+            const dist = 180 + (index * 8); // Distancia base + incremento sutil
+            const duration = 15 + (Math.random() * 30); // Velocidades muy variadas
+            const angleX = (Math.random() - 0.5) * 60; // Ángulo de inclinación X para 3D
+            const angleY = (Math.random() - 0.5) * 30; // Ángulo de inclinación Y para 3D
             
             wordDiv.style.setProperty('--distance', `${dist}px`);
-            wordDiv.style.animationDuration = `${duration}s`;
+            wordDiv.style.setProperty('--angleX', `${angleX}deg`);
+            wordDiv.style.setProperty('--angleY', `${angleY}deg`);
+            
+            wordDiv.style.animationDuration = `${duration}s, 1s`; // Duración de órbita y fadeIn
+            wordDiv.style.animationDelay = `0s, ${index * 0.1}s`; // Fade in escalonado
+            
             wordDiv.style.left = '50%';
             wordDiv.style.top = '50%';
             
-            // Color aleatorio suave
-            const colors = ['#ff9a9e', '#fad0c4', '#a1c4fd', '#c2e9fb', '#fbc2eb'];
+            // Color aleatorio de la paleta
             wordDiv.style.color = colors[Math.floor(Math.random() * colors.length)];
+            
+            // Tamaño ligeramente variado
+            const fontSize = 0.9 + (Math.random() * 0.3);
+            wordDiv.style.fontSize = `${fontSize}rem`;
             
             galaxy.appendChild(wordDiv);
         });
 
-        // Crear estrellas fugaces cada cierto tiempo
-        setInterval(() => {
+        // Función para crear muchas estrellas fugaces
+        function createShootingStar() {
             const ss = document.createElement('div');
             ss.className = 'shooting-star';
-            ss.style.left = `${Math.random() * 100}%`;
-            ss.style.top = `${Math.random() * 20}%`;
+            
+            // Parámetros aleatorios para la estrella fugaz
+            const startX = Math.random() * 100;
+            const startY = Math.random() * 50; // Empezar en la mitad superior
+            const rotation = (Math.random() * 90) - 45; // Ángulo de caída
+            const length = 150 + (Math.random() * 200); // Longitud de la estela
+            const travelX = (Math.random() * 800) + 400; // Distancia horizontal
+            const travelY = (Math.random() * 600) + 300; // Distancia vertical
+            const duration = 1.5 + (Math.random() * 2); // Velocidad
+            
+            ss.style.left = `${startX}%`;
+            ss.style.top = `${startY}%`;
+            ss.style.setProperty('--rotation', `${rotation}deg`);
+            ss.style.setProperty('--length', `${length}px`);
+            ss.style.setProperty('--travelX', `${travelX}px`);
+            ss.style.setProperty('--travelY', `${travelY}px`);
+            ss.style.animationDuration = `${duration}s`;
+            
+            // Color aleatorio para la estela (blanco, azul suave, dorado suave)
+            const ssColors = ['#fff', '#a1c4fd', '#ffe082'];
+            ss.style.background = `linear-gradient(90deg, ${ssColors[Math.floor(Math.random() * ssColors.length)]}, transparent)`;
+            
             galaxy.appendChild(ss);
-            setTimeout(() => ss.remove(), 3000);
-        }, 2000);
+            
+            // Eliminar la estrella fugaz después de la animación
+            setTimeout(() => ss.remove(), duration * 1000);
+        }
+
+        // Crear estrellas fugaces con mucha frecuencia (cada 0.8 segundos)
+        setInterval(createShootingStar, 800);
+        
+        // Lanzar ráfagas iniciales
+        for(let i=0; i<5; i++) {
+            setTimeout(createShootingStar, i * 300);
+        }
     </script>
 </body>
 </html>
